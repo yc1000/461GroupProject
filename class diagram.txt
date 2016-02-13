@@ -1,0 +1,27 @@
+class diagram
+
+human:
+pokemon(3-6)
+bag(optional)
+status(alive/lost)
+time
+
+pokemon:
+hp
+type1
+type2 (might be null)
+gender
+character(optional)
+level (fixed to be 50)
+base stats
+individual values (combines to determine the hp, atk, def, etc)
+learnset
+EV(optional, may be we don't need it)
+status(poisoned, frozen, etc)
+
+learnset
+type
+power
+accuracy
+PP
+category
