@@ -1,0 +1,10 @@
+motivation
+Pokemon is a popular game among people of all ages. Its battle involves luck, strategy, and fun.
+ However, the normal pokemon games has some deficiencies that is hard to resolve in the original
+version. Such as the long process of catching pokemons, training them to a certain level, and
+difficulty in finding another human player. Our design aims to eliminate all the deficiencies 
+and directly gives an oppurtunity for pokemons fans to enjoy the fun of pokemon fight.
+We aims to set up an online pokemon fighting platform that enables our users to choose pokemons
+on their own and fight against their friends or other players around the world. In the platform,
+the users can skip the the long process of catching and training pokemonsm and help them to 
+find their friends or other pokemon fans online and start fighting with their favorite pokemons.
