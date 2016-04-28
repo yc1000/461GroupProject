@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.view.View;
+
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -24,6 +26,7 @@ public class MainBattle extends AppCompatActivity {
     ProgressBar EnemyHealth;
     ImageView EnemyImage;
     TextView EnemyName;
+    TextView MainText;
 
 
     @Override
@@ -35,7 +38,7 @@ public class MainBattle extends AppCompatActivity {
        // NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
         //Initialize Globals
-
+        MainText = (TextView) findViewById(R.id.MainText);
         UserName = (TextView) findViewById(R.id.UserName);
         UserHealth = (ProgressBar) findViewById(R.id.UserHealth);
         UserImage = (ImageView) findViewById(R.id.UserImage);
@@ -52,8 +55,20 @@ public class MainBattle extends AppCompatActivity {
         EnemyHealth.setProgress(25);
         UserImage.setImageResource(R.mipmap.blastoise);
         EnemyImage.setImageResource(R.mipmap.charizard);
+        try {
+            wait(3000);
+        }
+        catch(Exception e){
+
+        }
+        UserName.setVisibility(View.INVISIBLE);
+
     }
 
+    public void thisFunction(View view){
+        int x = 1;
+        return;
+    }
 
 
 
