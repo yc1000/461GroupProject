@@ -29,7 +29,7 @@ public class PlayerTest {
 
     }
 
-    //This test tests both setInUse and getInUse
+    //This test tests setInUse, getInUse, and addPokemon
     @Test
     public void testSetGetInUse() throws Exception {
         testPlayer.setInUse(testPlayer.getPokemonTeam().get(0));
