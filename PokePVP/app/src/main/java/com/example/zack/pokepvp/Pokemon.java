@@ -45,5 +45,16 @@ public class Pokemon {
     public int getFrontPicture() {
         return frontPicture;
     }
+
+    //this method is for testing purposes only.
+    public void setStats(int maxHP, int speed, int atk, int def, int spatk, int spdef){
+        this.stats.setAtk(atk);
+        this.stats.setDef(def);
+        this.stats.setSpeed(speed);
+        this.health = maxHP;
+        this.stats.setSpatk(spatk);
+        this.stats.setSpdef(spdef);
+    }
+
 }
 
