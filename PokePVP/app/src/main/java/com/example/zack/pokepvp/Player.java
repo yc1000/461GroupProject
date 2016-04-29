@@ -16,6 +16,12 @@ public class Player {
         losses = 0;
         pokemonTeam = null;
     }
+    Player(){
+        pokemonTeam = new ArrayList<Pokemon>();
+        pokemonTeam.add(new Blastoise());
+        pokemonTeam.add(new Charizard());
+        pokemonTeam.add(new Venusaur());
+    }
 
     public void setInUse(Pokemon pm){
         inUse = pm;
