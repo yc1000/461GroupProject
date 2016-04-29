@@ -161,7 +161,8 @@
         android:layout_alignTop="@+id/SwitchButton"
         android:layout_toLeftOf="@+id/Attack2"
         android:layout_toStartOf="@+id/Attack2"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:onClick="attack1" />
 
     <Button
         android:layout_width="wrap_content"
@@ -171,7 +172,8 @@
         android:layout_alignTop="@+id/SwitchButton"
         android:layout_toLeftOf="@+id/Attack3"
         android:layout_toStartOf="@+id/Attack3"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:onClick="attack2" />
 
     <Button
         android:layout_width="wrap_content"
@@ -181,7 +183,8 @@
         android:layout_alignTop="@+id/SurrenderButton"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:onClick="attack3" />
 
     <Button
         android:layout_width="wrap_content"
@@ -203,7 +206,8 @@
         android:visibility="invisible"
         android:layout_toLeftOf="@+id/Pokemon2"
         android:layout_alignBottom="@+id/Pokemon3"
-        android:layout_alignParentStart="false" />
+        android:layout_alignParentStart="false"
+        android:onClick="pokemon1" />
 
     <Button
         android:layout_width="wrap_content"
@@ -213,7 +217,8 @@
         android:visibility="invisible"
         android:layout_alignBottom="@+id/Pokemon3"
         android:layout_toLeftOf="@+id/Pokemon3"
-        android:layout_alignTop="@+id/Pokemon3" />
+        android:layout_alignTop="@+id/Pokemon3"
+        android:onClick="pokemon2" />
 
     <Button
         android:layout_width="wrap_content"
@@ -223,6 +228,8 @@
         android:visibility="invisible"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:nestedScrollingEnabled="false"
+        android:onClick="pokemon3" />
 
 </RelativeLayout>

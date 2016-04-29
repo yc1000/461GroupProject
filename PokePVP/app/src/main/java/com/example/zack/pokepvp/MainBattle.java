@@ -86,14 +86,6 @@ public class MainBattle extends AppCompatActivity {
         EnemyImage.setImageResource(enemyPokemon.frontPicture);
         EnemyName.setText(enemyPokemon.getName());
 
-        EnemyImage.setImageResource(R.mipmap.charizard);
-
-       try {
-            Thread.sleep(5000);
-        }
-        catch(Exception e){
-            System.out.println("fuck");
-        }
 
 
         readyUp();
@@ -139,6 +131,10 @@ public class MainBattle extends AppCompatActivity {
         SurrenderButton.setVisibility(View.INVISIBLE);
         FightButton.setVisibility(View.INVISIBLE);
         MainText.setVisibility(View.INVISIBLE);
+        Attack1.setVisibility(View.INVISIBLE);
+        Attack2.setVisibility(View.INVISIBLE);
+        Attack3.setVisibility(View.INVISIBLE);
+        cancelAttack.setVisibility(View.INVISIBLE);
     }
 
     public void fight(View view){
@@ -201,20 +197,30 @@ public class MainBattle extends AppCompatActivity {
     public void attack1(View view) {
         userMove(userPokemon.attacks.get(0));
         EnemyMove(enemyPokemon.attacks.get(0));
-        clearBottom();
-        readyUp();
+        if((user.isDead()) || (enemy.isDead())){
+            clearBottom();
+            MainText.setText("Its Over");
+            MainText.setVisibility(View.VISIBLE);
+        }
     }
     public void attack2(View view) {
         userMove(userPokemon.attacks.get(1));
         EnemyMove(enemyPokemon.attacks.get(1));
-        clearBottom();
-        readyUp();
+        if((user.isDead()) || (enemy.isDead())){
+            clearBottom();
+            MainText.setText("Its Over");
+            MainText.setVisibility(View.VISIBLE);
+        }
+
     }
     public void attack3(View view) {
         userMove(userPokemon.attacks.get(2));
         EnemyMove(enemyPokemon.attacks.get(2));
-        clearBottom();
-        readyUp();
+        if((user.isDead()) || (enemy.isDead())){
+            clearBottom();
+            MainText.setText("Its Over");
+            MainText.setVisibility(View.VISIBLE);
+        }
     }
 
     public void SetUser(){
@@ -224,9 +230,9 @@ public class MainBattle extends AppCompatActivity {
     }
 
     public void SetEnemy(){
-        EnemyHealth.setProgress(userPokemon.getHealth());
-        EnemyName.setText(userPokemon.getName());
-        EnemyImage.setImageResource(userPokemon.backPicture);
+        EnemyHealth.setProgress(enemyPokemon.getHealth());
+        EnemyName.setText(enemyPokemon.getName());
+        EnemyImage.setImageResource(enemyPokemon.frontPicture);
     }
 
     public int CalculateAttack(Attack atk){
@@ -237,30 +243,33 @@ public class MainBattle extends AppCompatActivity {
         int Power = CalculateAttack(atk);
         clearBottom();
         MainText.setText("Enemy used " + atk.getName() + "!");
-        MainText.setVisibility(View.INVISIBLE);
+        MainText.setVisibility(View.VISIBLE);
         if(userPokemon.getHealth() <= Power){
             userPokemon.setHealth(0);
         }else{
-            UserHealth.setProgress(userPokemon.getHealth() - Power);
+            userPokemon.setHealth(userPokemon.getHealth() - Power);
         }
         SetUser();
-        try {
+/*        try {
             Thread.sleep(2000);
         }
         catch(Exception e){
             System.out.println("fuck");
         }
+*/
         if(userPokemon.getHealth() <= 0){
             MainText.setText("He dead... ");
-            try {
+/*            try {
                 Thread.sleep(2000);
             }
             catch(Exception e){
                 System.out.println("fuck");
             }
-            clearBottom();
+*/
             switchPokemonUp();
 
+        }else{
+            readyUp();
         }
 
     }
@@ -269,29 +278,40 @@ public class MainBattle extends AppCompatActivity {
         clearBottom();
         MainText.setText("You used " + atk.getName() + "!");
         int power = CalculateAttack(atk);
-        MainText.setVisibility(View.INVISIBLE);
+        MainText.setVisibility(View.VISIBLE);
         if(enemyPokemon.getHealth() <= power){
-            userPokemon.setHealth(0);
+            enemyPokemon.setHealth(0);
         }else{
-            UserHealth.setProgress(userPokemon.getHealth() - power);
+            enemyPokemon.setHealth(userPokemon.getHealth() - power);
         }
         SetEnemy();
-        try {
+/*        try {
             Thread.sleep(2000);
         }
         catch(Exception e){
             System.out.println("fuck");
         }
-        if(enemyPokemon.getHealth() == 0){
+ */       if(enemyPokemon.getHealth() == 0){
             MainText.setText(enemyPokemon.getName() + " fainted!");
-            try {
+/*            try {
                 Thread.sleep(2000);
             }
             catch(Exception e){
                 System.out.println("fuck");
             }
-            enemyPokemon = enemy.getPokemonTeam().get(1);
+
+*/
+            int next = enemy.getPokemonTeam().indexOf(enemyPokemon)+1;
+            if(next==3){return;}
+            enemyPokemon = enemy.getPokemonTeam().get(next);
             SetEnemy();
         }
     }
+
+    void launchText(){
+
+    }
+
+//    void Surrender(View)
+
 }

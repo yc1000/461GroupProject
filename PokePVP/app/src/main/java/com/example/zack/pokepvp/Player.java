@@ -23,6 +23,15 @@ public class Player {
         pokemonTeam.add(new Charizard());
         pokemonTeam.add(new Venusaur());
     }
+    boolean isDead(){
+        int count =0;
+        for (int i = 0; i < 3; i++){
+            if(pokemonTeam.get(i).getHealth() == 0){
+                count +=1;
+            }
+        }
+        if(count == 3){return true;}else{return false;}
+    }
 
     public void setInUse(Pokemon pm){
         inUse = pm;

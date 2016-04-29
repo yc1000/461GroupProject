@@ -11,6 +11,7 @@ public class Venusaur extends Pokemon {
         backPicture = R.mipmap.venusaurback;
         stats.setAtk(3);
         stats.setDef(7);
+        health = 100;
         attacks = new ArrayList<Attack>();
         attacks.add(new Attack());
         attacks.add(new Attack("cut",30));

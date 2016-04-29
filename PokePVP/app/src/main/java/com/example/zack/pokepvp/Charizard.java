@@ -11,7 +11,7 @@ public class Charizard extends Pokemon {
         backPicture = R.mipmap.charizardback;
         stats.setAtk(7);
         stats.setDef(3);
-        health = 0;
+        health = 100;
         attacks = new ArrayList<Attack>();
         attacks.add(new Attack());
         attacks.add(new Attack("Fly",30));
