@@ -6,6 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.zack.pokepvp"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         minSdkVersion 11
         targetSdkVersion 23
         versionCode 1

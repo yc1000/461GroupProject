@@ -14,7 +14,8 @@ public class Player {
         name = n;
         wins = 0;
         losses = 0;
-        pokemonTeam = null;
+        inUse = null;
+        pokemonTeam = new ArrayList<Pokemon>(3);
     }
     Player(){
         pokemonTeam = new ArrayList<Pokemon>();
@@ -33,5 +34,9 @@ public class Player {
 
     public ArrayList<Pokemon> getPokemonTeam(){
         return pokemonTeam;
+    }
+
+    public void addPokemon(Pokemon pm){
+        pokemonTeam.add(pm);
     }
 }
