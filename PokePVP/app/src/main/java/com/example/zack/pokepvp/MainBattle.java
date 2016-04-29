@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,6 +28,10 @@ public class MainBattle extends AppCompatActivity {
     ImageView EnemyImage;
     TextView EnemyName;
     TextView MainText;
+    Button SwitchButton;
+    Button FightButton;
+    Button SurrenderButton;
+    Button ReadyButton;
 
 
     @Override
@@ -45,32 +50,62 @@ public class MainBattle extends AppCompatActivity {
         EnemyName = (TextView) findViewById(R.id.EnemyName);
         EnemyHealth = (ProgressBar) findViewById(R.id.EnemyHealth);
         EnemyImage = (ImageView) findViewById(R.id.EnemyImage);
+        SwitchButton = (Button) findViewById(R.id.SwitchButton);
+        FightButton = (Button) findViewById(R.id.FightButton);
+        SurrenderButton = (Button) findViewById(R.id.SurrenderButton);
+        ReadyButton = (Button) findViewById(R.id.ReadyButton);
 
+        SwitchButton.setVisibility(View.INVISIBLE);
+        SurrenderButton.setVisibility(View.INVISIBLE);
+        FightButton.setVisibility(View.INVISIBLE);
 
         UserHealth.setMax(100);
-        UserHealth.setProgress(50);
-
+        UserHealth.setProgress(100);
 
         EnemyHealth.setMax(100);
-        EnemyHealth.setProgress(25);
+        EnemyHealth.setProgress(100);
+
         UserImage.setImageResource(R.mipmap.blastoise);
         EnemyImage.setImageResource(R.mipmap.charizard);
         try {
-            wait(3000);
+            wait(30000);
         }
         catch(Exception e){
-
+            System.out.println("fuck");
         }
-        UserName.setVisibility(View.INVISIBLE);
+
+        //while(true){}
 
     }
 
-    public void thisFunction(View view){
+    public void switchPokemon(View view){
         int x = 1;
         return;
     }
 
+    public void fight(View view){
+        int x = 1;
+        return;
+    }
 
+    public void surrender(View view){
+        int x = 1;
+        return;
+    }
+
+    //this will execute once a player hits ready
+    public void ready(View view){
+        MainText.setVisibility(View.INVISIBLE);
+        ReadyButton.setVisibility(View.INVISIBLE);
+        SwitchButton.setVisibility(View.VISIBLE);
+        SurrenderButton.setVisibility(View.VISIBLE);
+        FightButton.setVisibility(View.VISIBLE);
+    }
+
+    //checkSync if connection still exist, if a player's connection is lost, he/she loses.
+    public Boolean checkSync(){
+        return Boolean.TRUE;
+    }
 
 
 }

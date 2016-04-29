@@ -107,16 +107,46 @@
         android:layout_alignParentStart="true" />
 
     <Button
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Switch"
-        android:id="@+id/Switch"
+        android:id="@+id/SwitchButton"
+        android:onClick="switchPokemon"
         android:layout_alignBottom="@+id/MainText"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/UserImage"
-        android:layout_toEndOf="@+id/UserImage"
-        android:nestedScrollingEnabled="false"
-        android:onClick="thisFunction"/>
+        android:layout_toRightOf="@+id/FightButton"
+        android:layout_toEndOf="@+id/FightButton" />
+
+    <Button
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fight!"
+        android:id="@+id/FightButton"
+        android:onClick="fight"
+        android:layout_alignBottom="@+id/MainText"
+        android:layout_toLeftOf="@+id/EnemyImage"
+        android:layout_toStartOf="@+id/EnemyImage" />
+
+    <Button
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Surrender"
+        android:id="@+id/SurrenderButton"
+        android:onClick="surrender"
+        android:layout_alignTop="@+id/SwitchButton"
+        android:layout_toRightOf="@+id/SwitchButton"
+        android:layout_toEndOf="@+id/SwitchButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ready"
+        android:id="@+id/ReadyButton"
+        android:onClick="ready"
+        android:layout_alignBottom="@+id/MainText"
+        android:layout_alignRight="@+id/EnemyName"
+        android:layout_alignEnd="@+id/EnemyName" />
 
 </RelativeLayout>
