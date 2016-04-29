@@ -6,6 +6,10 @@ public class Pokemon {
     private Statistics stats;
 
     Pokemon(String n){
-        stats =
+
+    }
+
+    public int getHP(){
+        return stats.getHP().getProgress();
     }
 }
