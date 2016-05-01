@@ -8,6 +8,18 @@
         "source": "F:\\Documents\\2016Spr\\461\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\tile.9.png"
     },
     {
+        "merged": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\tile.9.png",
+        "source": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\tile.9.png"
+    },
+    {
+        "merged": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_action_device_access_bluetooth_searching.png",
+        "source": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_action_device_access_bluetooth_searching.png"
+    },
+    {
+        "merged": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+    },
+    {
         "merged": "F:\\Documents\\2016Spr\\461\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_action_device_access_bluetooth_searching.png",
         "source": "F:\\Documents\\2016Spr\\461\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_action_device_access_bluetooth_searching.png"
     }
