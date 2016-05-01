@@ -4,16 +4,36 @@
         "source": "F:\\Documents\\2016Spr\\461\\BluetoothChat\\Application\\src\\main\\res\\layout\\activity_device_list.xml"
     },
     {
-        "merged": "F:\\Documents\\2016Spr\\461\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout\\message.xml",
-        "source": "F:\\Documents\\2016Spr\\461\\BluetoothChat\\Application\\src\\main\\res\\layout\\message.xml"
+        "merged": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout\\device_name.xml",
+        "source": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\src\\main\\res\\layout\\device_name.xml"
     },
     {
         "merged": "F:\\Documents\\2016Spr\\461\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout\\activity_main.xml",
         "source": "F:\\Documents\\2016Spr\\461\\BluetoothChat\\Application\\src\\main\\res\\layout\\activity_main.xml"
     },
     {
+        "merged": "F:\\Documents\\2016Spr\\461\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout\\message.xml",
+        "source": "F:\\Documents\\2016Spr\\461\\BluetoothChat\\Application\\src\\main\\res\\layout\\message.xml"
+    },
+    {
+        "merged": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout\\activity_main.xml",
+        "source": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
         "merged": "F:\\Documents\\2016Spr\\461\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout\\device_name.xml",
         "source": "F:\\Documents\\2016Spr\\461\\BluetoothChat\\Application\\src\\main\\res\\layout\\device_name.xml"
+    },
+    {
+        "merged": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_bluetooth_chat.xml",
+        "source": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\src\\main\\res\\layout\\fragment_bluetooth_chat.xml"
+    },
+    {
+        "merged": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout\\activity_device_list.xml",
+        "source": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\src\\main\\res\\layout\\activity_device_list.xml"
+    },
+    {
+        "merged": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout\\message.xml",
+        "source": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\src\\main\\res\\layout\\message.xml"
     },
     {
         "merged": "F:\\Documents\\2016Spr\\461\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_bluetooth_chat.xml",

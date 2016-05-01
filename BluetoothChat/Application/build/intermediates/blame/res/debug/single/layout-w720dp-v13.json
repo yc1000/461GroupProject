@@ -1,5 +1,9 @@
 [
     {
+        "merged": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout-w720dp-v13\\activity_main.xml",
+        "source": "F:\\Documents\\Github\\461\\Proj\\461GroupProject\\BluetoothChat\\Application\\src\\main\\res\\layout-w720dp\\activity_main.xml"
+    },
+    {
         "merged": "F:\\Documents\\2016Spr\\461\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout-w720dp-v13\\activity_main.xml",
         "source": "F:\\Documents\\2016Spr\\461\\BluetoothChat\\Application\\src\\main\\res\\layout-w720dp\\activity_main.xml"
     }
