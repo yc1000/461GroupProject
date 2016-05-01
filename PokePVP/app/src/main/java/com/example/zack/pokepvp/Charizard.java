@@ -15,8 +15,8 @@ public class Charizard extends Pokemon {
         stats.setMaxHP(266);
         attacks = new ArrayList<Attack>();
         attacks.add(new Attack());
-        attacks.add(new Attack("Fly",30, 10));
-        attacks.add(new Attack("Flamethrower",50, 5));
+        attacks.add(new Attack("Fly",90, 15));
+        attacks.add(new Attack("Flamethrower",90, 15));
         name = "Charizard";
 
     }

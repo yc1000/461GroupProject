@@ -18,7 +18,8 @@ public class Player {
     }
     Player(){
         pokemonTeam = new ArrayList<Pokemon>();
-        pokemonTeam.add(new Blastoise());
+        //pokemonTeam.add(new Blastoise());
+        pokemonTeam.add(new Hitmonchan());
         pokemonTeam.add(new Charizard());
         pokemonTeam.add(new Venusaur());
     }

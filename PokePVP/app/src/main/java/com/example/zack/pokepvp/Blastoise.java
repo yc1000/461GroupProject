@@ -15,8 +15,8 @@ public class Blastoise extends Pokemon {
         stats.setMaxHP(268);
         attacks = new ArrayList<Attack>();
         attacks.add(new Attack());
-        attacks.add(new Attack("Bite",30, 15));
-        attacks.add(new Attack("Surf",50, 5));
+        attacks.add(new Attack("Bite",60, 25));
+        attacks.add(new Attack("Surf",90, 15));
         name = "Blastoise";
 
     }
