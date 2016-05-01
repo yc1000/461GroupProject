@@ -193,9 +193,9 @@ public class MainBattle extends AppCompatActivity {
         Attack1.setText(userPokemon.attacks.get(0).getName());
         Attack2.setText(userPokemon.attacks.get(1).getName());
         Attack3.setText(userPokemon.attacks.get(2).getName());
-        Attack1.setVisibility(View.VISIBLE);
-        Attack2.setVisibility(View.VISIBLE);
-        Attack3.setVisibility(View.VISIBLE);
+        if(userPokemon.attacks.get(0).getCurrentPP() > 0)Attack1.setVisibility(View.VISIBLE);
+        if(userPokemon.attacks.get(1).getCurrentPP() > 0)Attack2.setVisibility(View.VISIBLE);
+        if(userPokemon.attacks.get(2).getCurrentPP() > 0)Attack3.setVisibility(View.VISIBLE);
         cancelAttack.setVisibility(View.VISIBLE);
     }
 
@@ -237,7 +237,7 @@ public class MainBattle extends AppCompatActivity {
             return;
         }
         launchText("You used " + userPokemon.attacks.get(0).getName() + "!");
-
+        userPokemon.attacks.get(0).reducePP();
     }
     public void attack2(View view) {
         userMove(userPokemon.attacks.get(1));
@@ -248,7 +248,7 @@ public class MainBattle extends AppCompatActivity {
             return;
         }
         launchText("You used " + userPokemon.attacks.get(1).getName() + "!");
-
+        userPokemon.attacks.get(1).reducePP();
     }
     public void attack3(View view) {
         userMove(userPokemon.attacks.get(2));
@@ -259,6 +259,7 @@ public class MainBattle extends AppCompatActivity {
             return;
         }
         launchText("You used " + userPokemon.attacks.get(2).getName() + "!");
+        userPokemon.attacks.get(2).reducePP();
     }
 
     public void SetUser(){

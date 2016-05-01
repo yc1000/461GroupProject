@@ -15,8 +15,8 @@ public class Venusaur extends Pokemon {
         stats.setMaxHP(270);
         attacks = new ArrayList<Attack>();
         attacks.add(new Attack());
-        attacks.add(new Attack("cut",30));
-        attacks.add(new Attack("Solar Beam",50));
+        attacks.add(new Attack("cut",30, 15));
+        attacks.add(new Attack("Solar Beam",50, 5));
         name = "Venusaur";
 
     }

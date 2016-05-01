@@ -15,7 +15,7 @@ public class AttackTest {
     @Before
     public void setUp(){
         atk = new Attack();
-        atk2 = new Attack("splash", 0);
+        atk2 = new Attack("splash", 0, 100);
     }
 
     @Test
