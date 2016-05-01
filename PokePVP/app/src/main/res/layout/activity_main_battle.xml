@@ -27,7 +27,9 @@
         android:paddingTop="10dp"
         android:paddingEnd="10dp"
         android:id="@+id/MainText"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:clickable="true"
+        android:onClick="ResetIt" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -137,7 +139,7 @@
         android:layout_height="wrap_content"
         android:text="Surrender"
         android:id="@+id/SurrenderButton"
-        android:onClick="ResetIt"
+        android:onClick="GiveUp"
         android:layout_alignTop="@+id/SwitchButton"
         android:layout_toRightOf="@+id/SwitchButton"
         android:layout_toEndOf="@+id/SwitchButton"
@@ -286,7 +288,7 @@
         android:layout_alignParentEnd="true"
         android:background="@drawable/back"
         android:clickable="true"
-        android:onClick="hideText"
+        android:onClick="hideText3"
         android:visibility="invisible"
         android:paddingTop="10dp"
         android:paddingEnd="10dp"
