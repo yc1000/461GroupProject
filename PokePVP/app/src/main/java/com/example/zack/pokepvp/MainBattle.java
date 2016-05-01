@@ -206,12 +206,8 @@ public class MainBattle extends AppCompatActivity {
         if(health == 0){readyUp(); SetUser(); ScalePic(false); return;}
         SetUser();
         ScalePic(false);
-        EnemyMove(enemyPokemon.attacks.get(rn.nextInt(3)));
-        if(user.isDead()){
-            clearBottom();
-            MainText.setText("Its Over...you lose");
-            MainText.setVisibility(View.VISIBLE);
-        }
+        launchText3("You chose " + userPokemon.getName() + "!");
+
     }
     public void pokemon2(View view){
         readyUp();
@@ -220,12 +216,7 @@ public class MainBattle extends AppCompatActivity {
         if(health == 0){readyUp(); SetUser();ScalePic(false); return;}
         SetUser();
         ScalePic(false);
-        EnemyMove(enemyPokemon.attacks.get(rn.nextInt(3)));
-        if(user.isDead()){
-            clearBottom();
-            MainText.setText("Its Over...you lose");
-            MainText.setVisibility(View.VISIBLE);
-        }
+        launchText3("You chose " + userPokemon.getName() + "!");
     }
     public void pokemon3(View view){
         readyUp();
@@ -234,12 +225,7 @@ public class MainBattle extends AppCompatActivity {
         if(health == 0){readyUp(); SetUser(); ScalePic(false); return;}
         SetUser();
         ScalePic(false);
-        EnemyMove(enemyPokemon.attacks.get(rn.nextInt(3)));
-        if(user.isDead()){
-            clearBottom();
-            MainText.setText("Its Over...you lose");
-            MainText.setVisibility(View.VISIBLE);
-        }
+        launchText3("You chose " + userPokemon.getName() + "!");
     }
 
     public void attack1(View view) {
@@ -307,8 +293,8 @@ public class MainBattle extends AppCompatActivity {
         MainText.setText("Enemy used " + atk.getName() + "!");
 
         MainText.setVisibility(View.VISIBLE);
-//        RotatePic(false);
-//        SlidePic(true);
+        RotatePic(false);
+        SlidePic(true);
         launchText2("Enemy used " + atk.getName() + "!");
         if(userPokemon.getHealth() <= Power){
             userPokemon.setHealth(0);
@@ -316,8 +302,16 @@ public class MainBattle extends AppCompatActivity {
             userPokemon.setHealth(userPokemon.getHealth() - Power);
         }
         SetUser();
-        PopUp2.setText("Enemy used " + atk.getName() + " and you died!");
-
+        if(userPokemon.getHealth() == 0){
+            PopUp2.setText("Enemy used " + atk.getName() + " and you died!");
+        }
+        if(user.isDead()){
+            MainText.setText("You Lose");
+            MainText.setVisibility(View.VISIBLE);
+            PopUp3.setVisibility(View.INVISIBLE);
+            PopUp2.setVisibility(View.INVISIBLE);
+            PopUp.setVisibility(View.INVISIBLE);
+        }
 
     }
 
@@ -344,6 +338,13 @@ public class MainBattle extends AppCompatActivity {
             enemyPokemon = enemy.getPokemonTeam().get(next);
             SetEnemy();
         }
+        if(enemy.isDead()){
+            MainText.setText("You Win");
+            MainText.setVisibility(View.VISIBLE);
+            PopUp3.setVisibility(View.INVISIBLE);
+            PopUp2.setVisibility(View.INVISIBLE);
+            PopUp.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void launchText(String text){
@@ -355,6 +356,20 @@ public class MainBattle extends AppCompatActivity {
     public void launchText2(String text){
         PopUp2.setText(text);
         PopUp2.setVisibility(View.VISIBLE);
+
+    }
+
+    public void launchText3(String text){
+        PopUp3.setText(text);
+        PopUp3.setVisibility(View.VISIBLE);
+        clearBottom();
+
+    }
+
+    public void launchText4(String text){
+        PopUp3.setText(text);
+        PopUp3.setVisibility(View.VISIBLE);
+        clearBottom();
 
     }
 
@@ -377,6 +392,17 @@ public class MainBattle extends AppCompatActivity {
 
         }else{
             readyUp();
+        }
+    }
+
+    public void hideText3(View view){
+        PopUp3.setVisibility(View.INVISIBLE);
+
+        EnemyMove(enemyPokemon.attacks.get(rn.nextInt(3)));
+        if(user.isDead()){
+            clearBottom();
+            MainText.setText("Its Over...you lose");
+            MainText.setVisibility(View.VISIBLE);
         }
     }
 
@@ -433,6 +459,15 @@ public class MainBattle extends AppCompatActivity {
         }else{
             UserImage.startAnimation(animation);
         }
+    }
+
+    public void GiveUp(View view){
+        MainText.setText("What a cop out");
+        clearBottom();
+        MainText.setVisibility(View.VISIBLE);
+        PopUp3.setVisibility(View.INVISIBLE);
+        PopUp2.setVisibility(View.INVISIBLE);
+        PopUp.setVisibility(View.INVISIBLE);
     }
 
 }
