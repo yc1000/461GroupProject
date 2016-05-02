@@ -1,5 +1,6 @@
 package com.example.yc100.bluetoothparts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,7 @@ import android.view.Window;
 public class MainActivity extends AppCompatActivity {
     static BluetoothChatFragment fragment;
     static AppBarLayout app;
+    public final static String GAME_START = "com.example.yc100.bluetoothparts.GAMESTART";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,17 +31,11 @@ public class MainActivity extends AppCompatActivity {
             transaction.replace(R.id.sample_content_fragment, fragment);
             transaction.commit();
         }
+    }
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     public void connectBlueTooth(View v) {
@@ -51,16 +47,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startGame(View v) {
-        toggleActionBar();
-        /*String msg = null;
-        for(int i = 0; i < 5; i++) {
-            do{
-                msg = BluetoothChatFragment.mConversationArrayAdapter.read();
-            } while (msg == null);
-            if(msg.contains("hack")) {
-                toggleActionBar();
-            }
-        }*/
+        Intent intent = new Intent(this, GameStarterActivity.class);
+        intent.putExtra(GAME_START, "Start the game");
+        startActivity(intent);
     }
 
     @Override
@@ -68,10 +57,6 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    public static void test() {
-
     }
 
     public void toggleActionBar() {
@@ -97,5 +82,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public class Hack implements Runnable {
+        public void run() {
+            toggleActionBar();
+        }
     }
 }

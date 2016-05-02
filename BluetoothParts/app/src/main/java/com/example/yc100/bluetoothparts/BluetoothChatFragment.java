@@ -47,7 +47,6 @@ import android.widget.Toast;
  * This fragment controls Bluetooth to communicate with other devices.
  */
 public class BluetoothChatFragment extends Fragment {
-
     private static final String TAG = "BluetoothChatFragment";
 
     // Intent request codes
@@ -86,18 +85,25 @@ public class BluetoothChatFragment extends Fragment {
      */
     private BluetoothChatService mChatService = null;
 
+    private int activityNum = 0;
+
+    private static int used;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-        // Get local Bluetooth adapter
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        // If the adapter is null, then Bluetooth is not supported
-        if (mBluetoothAdapter == null) {
-            FragmentActivity activity = getActivity();
-            Toast.makeText(activity, "Bluetooth is not available", Toast.LENGTH_LONG).show();
-            activity.finish();
+        if(used != 7) {
+            setHasOptionsMenu(true);
+            // Get local Bluetooth adapter
+            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+            // If the adapter is null, then Bluetooth is not supported
+            if (mBluetoothAdapter == null) {
+                FragmentActivity activity = getActivity();
+                Toast.makeText(activity, "Bluetooth is not available", Toast.LENGTH_LONG).show();
+                activity.finish();
+            }
+            used = 7;
         }
     }
 
@@ -151,6 +157,10 @@ public class BluetoothChatFragment extends Fragment {
         //mConversationView = (ListView) view.findViewById(R.id.in);
         //mOutEditText = (EditText) view.findViewById(R.id.edit_text_out);
         //mSendButton = (Button) view.findViewById(R.id.button_send);
+    }
+
+    public void changeActivity(int newCode) {
+        activityNum = newCode;
     }
 
     /**
@@ -236,6 +246,15 @@ public class BluetoothChatFragment extends Fragment {
         }
     };
 
+    public void copy(BluetoothChatFragment rhs, int activityCode) {
+        this.activityNum = activityCode;
+        this.mBluetoothAdapter = rhs.mBluetoothAdapter;
+        this.mChatService = rhs.mChatService;
+        this.mConnectedDeviceName = rhs.mConnectedDeviceName;
+        this.mOutStringBuffer = rhs.mOutStringBuffer;
+        this.mChatService.changeHandler(mHandler);
+    }
+
     /**
      * Updates the status on the action bar.
      *
@@ -283,7 +302,6 @@ public class BluetoothChatFragment extends Fragment {
                         case BluetoothChatService.STATE_CONNECTED:
                             setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
                             //mConversationArrayAdapter.clear();
-                            // TODO: Add opponent surrendured here
                             break;
                         case BluetoothChatService.STATE_CONNECTING:
                             setStatus(R.string.title_connecting);
@@ -291,6 +309,7 @@ public class BluetoothChatFragment extends Fragment {
                         case BluetoothChatService.STATE_LISTEN:
                         case BluetoothChatService.STATE_NONE:
                             setStatus(R.string.title_not_connected);
+                            // TODO: Add opponent surrendered here
                             break;
                     }
                     break;
@@ -304,8 +323,10 @@ public class BluetoothChatFragment extends Fragment {
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
-                    MainActivity.test();
-                    //mConversationArrayAdapter.add(readMessage);
+                    if(activityNum == 1) {
+                        GameStarterActivity mActivity = (GameStarterActivity) getActivity();
+                        mActivity.parse(readMessage);
+                    }
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     // save the connected device's name
@@ -405,6 +426,37 @@ public class BluetoothChatFragment extends Fragment {
         }
         return false;
     }
+
+    public String getmConnectedDeviceName() {
+        return mConnectedDeviceName;
+    }
+
+    /**
+     * Array adapter for the conversation thread
+     */
+    //public static MessageFifo mConversationArrayAdapter;
+
+    /**
+     * String buffer for outgoing messages
+     */
+    public StringBuffer getStringBuffer() {
+        return mOutStringBuffer;
+    }
+
+    /**
+     * Local Bluetooth adapter
+     */
+    public BluetoothAdapter getBluetoothAdapter() {
+        return mBluetoothAdapter;
+    }
+
+    /**
+     * Member object for the chat services
+     */
+    public BluetoothChatService getBluetoothChatService() {
+        return mChatService;
+    }
+
 
 }
 
