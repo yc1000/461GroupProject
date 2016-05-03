@@ -17,6 +17,8 @@ public class Absol extends Pokemon {
         attacks.add(new Attack());
         attacks.add(new Attack("Night Slash",70, 15));
         attacks.add(new Attack("Psycho Cut",70, 20));
+        number = 4;
+        stats.setSpeed(185);
         name = "Absol";
 
     }

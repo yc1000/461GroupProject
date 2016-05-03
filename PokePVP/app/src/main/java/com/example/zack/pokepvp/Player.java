@@ -23,10 +23,48 @@ public class Player {
         pokemonTeam.add(new Charizard());
         pokemonTeam.add(new Venusaur());
     }
+    Player(int first, int second, int third) {
+        pokemonTeam = new ArrayList<Pokemon>();
+        pokemonTeam.add(getPokemon(first));
+        pokemonTeam.add(getPokemon(second));
+        pokemonTeam.add(getPokemon(third));
+    }
+
+    public String getPokemonNums() {
+        String result = "";
+        for(int i = 0; i < pokemonTeam.size(); i++) {
+            result += pokemonTeam.get(i).getNumberString();
+        }
+        return "030102";
+    }
+
+    public Pokemon getPokemon(int index) {
+        switch (index) {
+            case 0:
+                return new Blastoise();
+            case 1:
+                return new Charizard();
+            case 2:
+                return new Venusaur();
+            case 3:
+                return new Hitmonchan();
+            case 4:
+                return new Absol();
+            case 5:
+                return new Jirachi();
+            case 6:
+                return new Mewtwo();
+            case 7:
+                return new Ninetales();
+            default:
+                return new Sceptile();
+        }
+    }
+
     boolean isDead(){
         int count =0;
         for (int i = 0; i < 3; i++){
-            if(pokemonTeam.get(i).getHealth() == 0){
+            if(pokemonTeam.get(i).getHealth() <= 0){
                 count +=1;
             }
         }

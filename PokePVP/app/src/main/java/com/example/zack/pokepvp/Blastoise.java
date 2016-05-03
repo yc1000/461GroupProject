@@ -17,6 +17,8 @@ public class Blastoise extends Pokemon {
         attacks.add(new Attack());
         attacks.add(new Attack("Bite",60, 25));
         attacks.add(new Attack("Surf",90, 15));
+        number = 0;
+        stats.setSpeed(191);
         name = "Blastoise";
 
     }

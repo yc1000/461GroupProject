@@ -15,8 +15,10 @@ public class Sceptile extends Pokemon {
         stats.setMaxHP(320);
         attacks = new ArrayList<Attack>();
         attacks.add(new Attack());
-        attacks.add(new Attack("X-Scissor",80, 15));
         attacks.add(new Attack("Leaf Blade",90, 15));
+        attacks.add(new Attack("Leaf Storm",130, 5));
+        number = 8;
+        stats.setSpeed(275);
         name = "Sceptile";
 
     }

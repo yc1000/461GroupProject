@@ -18,6 +18,8 @@ public class Hitmonchan extends Pokemon{
         attacks.add(new Attack("Close Combat", 120, 15));
         attacks.add(new Attack("Focus Punch", 150, 10));
         attacks.add(new Attack("Mega Punch", 80, 20));
+        number = 3;
+        stats.setSpeed(187);
         name = "Hitmonchan";
     }
 }

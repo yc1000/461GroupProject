@@ -3,9 +3,10 @@ package com.example.zack.pokepvp;
 import java.util.ArrayList;
 
 public class Pokemon {
+    private final int max_places = 10;
     protected String name;
 
-
+    protected int number;
 
     protected Statistics stats;
     protected int health;
@@ -16,6 +17,25 @@ public class Pokemon {
     public Pokemon() {
         this.stats = new Statistics();
         health = 100;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public int getSpeed() {
+        return stats.getSpeed();
+    }
+
+    public String getNumberString() {
+        String result = "";
+        int p = getNumber();
+        if(p == 0) {
+            return "00";
+        }
+        result += "0";
+        result += (new Integer(p)).toString();
+        return result;
     }
 
     public void setHealth(int health) {

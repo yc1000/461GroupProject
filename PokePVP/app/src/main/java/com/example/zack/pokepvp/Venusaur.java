@@ -17,6 +17,8 @@ public class Venusaur extends Pokemon {
         attacks.add(new Attack());
         attacks.add(new Attack("cut",50, 30));
         attacks.add(new Attack("Solar Beam",120, 5));
+        number = 2;
+        stats.setSpeed(195);
         name = "Venusaur";
 
     }

@@ -13,10 +13,12 @@ public class Mewtwo extends Pokemon {
         stats.setDef(180);
         health = 400;
         stats.setMaxHP(400);
+        stats.setSpeed(295);
         attacks = new ArrayList<Attack>();
         attacks.add(new Attack("Psychic",90, 10));
         attacks.add(new Attack("Aura Sphere",80, 20));
         attacks.add(new Attack("Psycho Cut",70, 20));
+        number = 6;
         name = "Mewtwo";
 
     }

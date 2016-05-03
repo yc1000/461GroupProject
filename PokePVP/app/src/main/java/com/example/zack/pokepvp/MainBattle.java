@@ -1,6 +1,8 @@
 package com.example.zack.pokepvp;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +11,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.Animation;
@@ -21,14 +26,21 @@ import android.widget.TextView;
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
+import android.widget.Toast;
 
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Time;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainBattle extends AppCompatActivity {
+    public static BluetoothChatFragment fragment;
+    public static AtomicBoolean messageReceived;
+    boolean firstTime;
+    int currentAttack;
     ProgressBar UserHealth;
     ImageView UserImage;
     TextView UserName;
@@ -47,20 +59,42 @@ public class MainBattle extends AppCompatActivity {
     Player user;
     Player enemy;
     Random rn;
-    Handler mHandler;
-    TextView PopUp,PopUp2,PopUp3;
+    TextView PopUp,PopUp2,PopUp3,PopUp4,PopUp5;
     Boolean CloseWindow;
-
+    int enemyFirst = -2;
+    int enemySecond = -2;
+    int enemyThird = -2;
+    int newPokemon = -2;
+    int newAttack = -2;
+    int userMove = 0;
+    int yourRandom;
+    int theirRandom;
+    int doMoveCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        messageReceived = new AtomicBoolean(false);
+        messageReceived.getAndSet(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_battle);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
        // ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
        // NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
+
+        fragment = new BluetoothChatFragment();
+        fragment.copy(MainActivity.fragment, 1);
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.game_content_fragment, fragment);
+            transaction.commit();
+        }
+
+        firstTime = true;
+        Intent intent = getIntent();
+        String OtherPokemon = intent.getStringExtra(MainActivity.GAME_START);
+
         //Initialize Globals
+        currentAttack = -1;
         MainText = (TextView) findViewById(R.id.MainText);
         UserName = (TextView) findViewById(R.id.UserName);
         UserHealth = (ProgressBar) findViewById(R.id.UserHealth);
@@ -83,13 +117,17 @@ public class MainBattle extends AppCompatActivity {
         PopUp = (TextView) findViewById(R.id.PopUp);
         PopUp2 = (TextView) findViewById(R.id.PopUp2);
         PopUp3 = (TextView) findViewById(R.id.PopUp3);
+        PopUp4 = (TextView) findViewById(R.id.PopUp4);
+        PopUp5 = (TextView) findViewById(R.id.PopUp5);
         CloseWindow = true;
-
+        EnemyName.setText("Waiting");
 
         user = new Player();
         userPokemon = user.getPokemonTeam().get(0);
-        enemy = new Player();
-        enemyPokemon = enemy.getPokemonTeam().get(0);
+        yourRandom = (int)(Math.random()*50000);
+        fragment.sendMessage(user.getPokemonNums() + ":set" + yourRandom);
+
+        //enemy = new Player();
 
 
         SwitchButton.setVisibility(View.INVISIBLE);
@@ -99,15 +137,36 @@ public class MainBattle extends AppCompatActivity {
         UserHealth.setProgress(userPokemon.getHealth());
         UserImage.setImageResource(userPokemon.backPicture);
         UserName.setText(userPokemon.getName());
-        EnemyHealth.setMax(enemyPokemon.getStats().getMaxHP());
-        EnemyHealth.setProgress(enemyPokemon.getHealth());
-        EnemyImage.setImageResource(enemyPokemon.frontPicture);
-        EnemyName.setText(enemyPokemon.getName());
 
 
+        if(OtherPokemon.contains(":set")) {
+            firstTime = false;
+            enemyFirst = (int) Integer.parseInt(OtherPokemon.substring(0,2));
+            enemySecond = (int) Integer.parseInt(OtherPokemon.substring(2,4));
+            enemyThird = (int) Integer.parseInt(OtherPokemon.substring(4,6));
+            enemy = new Player(enemyFirst, enemySecond, enemyThird);
+            enemyPokemon = enemy.getPokemonTeam().get(0);
+            EnemyHealth.setMax(enemyPokemon.getStats().getMaxHP());
+            EnemyHealth.setProgress(enemyPokemon.getHealth());
+            EnemyImage.setImageResource(enemyPokemon.frontPicture);
+            EnemyName.setText(enemyPokemon.getName());
+            readyUp();
+        } else {
+            launchText4("Waiting for opponent");
+        }
 
-        readyUp();
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        MainActivity.fragment.copy(fragment, 0);
+    }
+
+    @Override
+    public void onStop() {
+        MainActivity.fragment.copy(fragment, 0);
+        super.onStop();
     }
 
     public void switchPokemon(View view){
@@ -123,7 +182,6 @@ public class MainBattle extends AppCompatActivity {
         if(user.getPokemonTeam().get(1) == userPokemon){Pokemon2.setVisibility(View.INVISIBLE);}
         if(user.getPokemonTeam().get(2) == userPokemon){Pokemon3.setVisibility(View.INVISIBLE);}
 
-
         return;
     }
 
@@ -136,7 +194,6 @@ public class MainBattle extends AppCompatActivity {
         if(user.getPokemonTeam().get(0).getHealth() > 0){Pokemon1.setVisibility(View.VISIBLE);}
         if(user.getPokemonTeam().get(1).getHealth() > 0){Pokemon2.setVisibility(View.VISIBLE);}
         if(user.getPokemonTeam().get(2).getHealth() > 0){Pokemon3.setVisibility(View.VISIBLE);}
-
 
         return;
     }
@@ -156,6 +213,11 @@ public class MainBattle extends AppCompatActivity {
         Attack2.setVisibility(View.INVISIBLE);
         Attack3.setVisibility(View.INVISIBLE);
         cancelAttack.setVisibility(View.INVISIBLE);
+        PopUp.setVisibility(View.INVISIBLE);
+        PopUp2.setVisibility(View.INVISIBLE);
+        PopUp3.setVisibility(View.INVISIBLE);
+        PopUp4.setVisibility(View.INVISIBLE);
+        PopUp5.setVisibility(View.INVISIBLE);
     }
 
     public void fight(View view){
@@ -200,66 +262,50 @@ public class MainBattle extends AppCompatActivity {
     }
 
     public void pokemon1(View view){
-        readyUp();
-        int health = userPokemon.getHealth();
-        userPokemon = user.getPokemonTeam().get(0);
-        if(health == 0){readyUp(); SetUser(); ScalePic(false); return;}
-        SetUser();
-        ScalePic(false);
-        launchText3("You chose " + userPokemon.getName() + "!");
-
+        fragment.sendMessage("0" + "0" + ":action");
+        if(userPokemon.getHealth() <= 0) {//Health = zero means you came here after your opponent attacked
+            userSwitch(0);
+            readyUp();
+        } else {// you voluntarily chose to switch pokemon
+            userMove = -1;
+            launchText("Waiting On Opponent...");
+        }
     }
     public void pokemon2(View view){
-        readyUp();
-        int health = userPokemon.getHealth();
-        userPokemon = user.getPokemonTeam().get(1);
-        if(health == 0){readyUp(); SetUser();ScalePic(false); return;}
-        SetUser();
-        ScalePic(false);
-        launchText3("You chose " + userPokemon.getName() + "!");
+        fragment.sendMessage("0" + "1" + ":action");
+        if(userPokemon.getHealth() <= 0) { //Health = zero means you came here after your opponent attacked
+            userSwitch(1);
+            readyUp();
+        } else { // you voluntarily chose to switch pokemon
+            userMove = -2;
+            launchText("Waiting On Opponent...");
+        }
     }
     public void pokemon3(View view){
-        readyUp();
-        int health = userPokemon.getHealth();
-        userPokemon = user.getPokemonTeam().get(2);
-        if(health == 0){readyUp(); SetUser(); ScalePic(false); return;}
-        SetUser();
-        ScalePic(false);
-        launchText3("You chose " + userPokemon.getName() + "!");
+        fragment.sendMessage("0" + "2" + ":action");
+        if(userPokemon.getHealth() <= 0) {//Health = zero means you came here after your opponent attacked
+            userSwitch(2);
+            readyUp();
+        } else {// you voluntarily chose to switch pokemon
+            userMove = -3;
+            launchText("Waiting On Opponent...");
+        }
     }
 
     public void attack1(View view) {
-        userMove(userPokemon.attacks.get(0));
-        if(enemy.isDead()){
-            clearBottom();
-            MainText.setText("Nice work, You Won");
-            MainText.setVisibility(View.VISIBLE);
-            return;
-        }
-        launchText("You used " + userPokemon.attacks.get(0).getName() + "!");
-        userPokemon.attacks.get(0).reducePP();
+        userMove = 0;
+        fragment.sendMessage("1" + userMove + ":action");
+        launchText("Waiting on Opponent...");
     }
     public void attack2(View view) {
-        userMove(userPokemon.attacks.get(1));
-        if(enemy.isDead()){
-            clearBottom();
-            MainText.setText("Nice work, You Won");
-            MainText.setVisibility(View.VISIBLE);
-            return;
-        }
-        launchText("You used " + userPokemon.attacks.get(1).getName() + "!");
-        userPokemon.attacks.get(1).reducePP();
+        userMove = 1;
+        fragment.sendMessage("1" + userMove + ":action");
+        launchText("Waiting on Opponent...");
     }
     public void attack3(View view) {
-        userMove(userPokemon.attacks.get(2));
-        if(enemy.isDead()){
-            clearBottom();
-            MainText.setText("Nice work, You Won");
-            MainText.setVisibility(View.VISIBLE);
-            return;
-        }
-        launchText("You used " + userPokemon.attacks.get(2).getName() + "!");
-        userPokemon.attacks.get(2).reducePP();
+        userMove = 2;
+        fragment.sendMessage("1" + userMove + ":action");
+        launchText("Waiting on Opponent...");
     }
 
     public void SetUser(){
@@ -288,127 +334,252 @@ public class MainBattle extends AppCompatActivity {
         return (int)damage + 2;
     }
 
-    public void EnemyMove(Attack atk){
+    public void EnemyAttack(Attack atk){
         int Power = CalculateAttack(atk,false);
-        clearBottom();
-        MainText.setText("Enemy used " + atk.getName() + "!");
-
-        MainText.setVisibility(View.VISIBLE);
-        RotatePic(false);
         SlidePic(true);
-        launchText2("Enemy used " + atk.getName() + "!");
+        RotatePic(false);
         if(userPokemon.getHealth() <= Power){
             userPokemon.setHealth(0);
         }else{
             userPokemon.setHealth(userPokemon.getHealth() - Power);
         }
         SetUser();
-        if(userPokemon.getHealth() == 0){
-            PopUp2.setText("Enemy used " + atk.getName() + " and you died!");
-        }
         if(user.isDead()){
             MainText.setText("You Lose");
             MainText.setVisibility(View.VISIBLE);
             PopUp3.setVisibility(View.INVISIBLE);
             PopUp2.setVisibility(View.INVISIBLE);
             PopUp.setVisibility(View.INVISIBLE);
+        } else if(userPokemon.getHealth() <= 0){
+            messageReceived.set(false);
+            if(doMoveCount == 1) {
+                userMove = 10;
+            }
+            launchText2("You fainted!");
         }
 
     }
 
-    public void userMove(Attack atk){
-        clearBottom();
-        MainText.setText("You used " + atk.getName() + "!");
+    public void EnemySwitch(int newPmn) {
+        enemyPokemon = enemy.getPokemonTeam().get(newPmn);
+        SetEnemy();
+        ScalePic(true);
+        launchText5("Your Opponent sent out " + enemyPokemon.getName() + "!");
+    }
 
+    public void userMove(Attack atk) {
+        clearBottom();
+        atk.reducePP();
 
         int power = CalculateAttack(atk,true);
-        MainText.setVisibility(View.VISIBLE);
-        RotatePic(true);
         SlidePic(false);
+        RotatePic(true);
         if(enemyPokemon.getHealth() <= power){
             enemyPokemon.setHealth(0);
         }else{
             enemyPokemon.setHealth(enemyPokemon.getHealth() - power);
         }
         SetEnemy();
-       if(enemyPokemon.getHealth() == 0){
-            MainText.setText(enemyPokemon.getName() + " fainted!");
-
-            int next = enemy.getPokemonTeam().indexOf(enemyPokemon)+1;
-            if(next==3){return;}
-            enemyPokemon = enemy.getPokemonTeam().get(next);
-            SetEnemy();
-        }
         if(enemy.isDead()){
             MainText.setText("You Win");
             MainText.setVisibility(View.VISIBLE);
             PopUp3.setVisibility(View.INVISIBLE);
             PopUp2.setVisibility(View.INVISIBLE);
             PopUp.setVisibility(View.INVISIBLE);
+        } else if(enemyPokemon.getHealth() <= 0){
+            messageReceived.set(false);
+            launchText3("");
         }
     }
 
-    public void launchText(String text){
-        PopUp.setText(text);
-        PopUp.setVisibility(View.VISIBLE);
-
+    public void userSwitch(int newPmn) {
+        userPokemon = user.getPokemonTeam().get(newPmn);
+        SetUser();
+        ScalePic(false);
+        launchText5("You sent out " + userPokemon.getName() + "!");
     }
 
-    public void launchText2(String text){
+    public void doMove(int theirSwitch, int theirAttack, int myMove) {
+        doMoveCount = 1;
+        //Case you switch pokemon
+        if(myMove < 0) {
+            userSwitch((myMove * -1) - 1);
+            return;
+        } else { //Case where you attacked
+            if(theirAttack >= 0) { //Case they attacked
+                if(enemyPokemon.getSpeed() > userPokemon.getSpeed()) { //they are faster
+                    EnemyAttack(enemyPokemon.attacks.get(theirAttack));
+                    launchText5("They used " + enemyPokemon.attacks.get(theirAttack).getName());
+                } else if(enemyPokemon.getSpeed() < userPokemon.getSpeed()) { //you are faster
+                    userMove(userPokemon.attacks.get(myMove));
+                    launchText5("You used " + userPokemon.attacks.get(myMove).getName());
+                } else { //draw do coin toss
+                    if(yourRandom < theirRandom) {
+                        EnemyAttack(enemyPokemon.attacks.get(theirAttack));
+                        launchText5("They used " + enemyPokemon.attacks.get(theirAttack).getName());
+                    } else {
+                        userMove(userPokemon.attacks.get(myMove));
+                        launchText5("You used " + userPokemon.attacks.get(myMove).getName());
+                    }
+                }
+            } else { //Case they switched
+                EnemySwitch(theirSwitch);
+            }
+        }
+    }
+
+    public void doMove2(int theirSwitch, int theirAttack, int myMove) {
+        //Implements the second half of the attacks
+        doMoveCount = 2;
+        //your or your opponent's pokemon fainted from the first attack
+        if(myMove == 10) {
+            switchPokemonUp();
+            return;
+        }
+        //Case you switch pokemon (in doMove)
+        if(myMove < 0) {
+            if(theirSwitch > -1) {
+                EnemySwitch(theirSwitch);
+            } else {
+                EnemyAttack(enemyPokemon.attacks.get(theirAttack));
+                launchText5("They used " + enemyPokemon.attacks.get(theirAttack).getName());
+            }
+        } else { //Case where you attacked (in doMove)
+            if(theirAttack >= 0) { //Case they attacked (in doMove)
+                if(enemyPokemon.getSpeed() > userPokemon.getSpeed()) { //they are faster
+                    userMove(userPokemon.attacks.get(myMove));
+                    launchText5("You used " + userPokemon.attacks.get(myMove).getName());
+                } else if(enemyPokemon.getSpeed() < userPokemon.getSpeed()) { //you are faster
+                    EnemyAttack(enemyPokemon.attacks.get(theirAttack));
+                    launchText5("They used " + enemyPokemon.attacks.get(theirAttack).getName());
+                } else { //draw do coin toss
+                    if(yourRandom < theirRandom) {
+                        userMove(userPokemon.attacks.get(myMove));
+                        launchText5("You used " + userPokemon.attacks.get(myMove).getName());
+                    } else {
+                        EnemyAttack(enemyPokemon.attacks.get(theirAttack));
+                        launchText5("They used " + enemyPokemon.attacks.get(theirAttack).getName());
+                    }
+                }
+            } else { //Case they switched
+                userMove(userPokemon.attacks.get(myMove));
+                launchText5("You used " + userPokemon.attacks.get(myMove).getName());
+            }
+        }
+    }
+
+    public void launchText(String text) {
+        clearBottom();
+        if(messageReceived.get()) {
+            doMove(newPokemon, newAttack, userMove);
+            messageReceived.set(false);
+        } else {
+            PopUp.setText(text);
+            PopUp.setVisibility(View.VISIBLE);
+        }
+
+    }
+    public void launchText2(String text) {
+        clearBottom();
         PopUp2.setText(text);
         PopUp2.setVisibility(View.VISIBLE);
 
     }
-
     public void launchText3(String text){
-        PopUp3.setText(text);
-        PopUp3.setVisibility(View.VISIBLE);
         clearBottom();
+        if(false && messageReceived.get() && enemyPokemon != enemy.getPokemonTeam().get(newPokemon)) { //TODO:: FIGURE THIS SHIT OUT
+            PopUp3.setVisibility(View.INVISIBLE);
+            doMoveCount = 2;
+            EnemySwitch(newPokemon);
+            readyUp(); // Always ready up because they won't move after switching and if they already moved they can't go again
+            messageReceived.set(false);
+        } else {
+            messageReceived.set(false);
+            PopUp3.setText("Waiting on Opponent...");
+            PopUp3.setVisibility(View.VISIBLE);
+        }
 
     }
-
     public void launchText4(String text){
-        PopUp3.setText(text);
-        PopUp3.setVisibility(View.VISIBLE);
         clearBottom();
+        if(messageReceived.get()) {
+            enemy = new Player(enemyFirst, enemySecond, enemyThird);
+            enemyPokemon = enemy.getPokemonTeam().get(0);
+            SetEnemy();
+
+            PopUp4.setVisibility(View.INVISIBLE);
+            readyUp();
+            messageReceived.set(false);
+        } else {
+            PopUp4.setText("Waiting on Opponent...");
+            PopUp4.setVisibility(View.VISIBLE);
+        }
 
     }
+    public void launchText5(String text){
+        clearBottom();
+        PopUp5.setText(text);
+        PopUp5.setVisibility(View.VISIBLE);
+    }
 
-    public void hideText(View view){
+    public void hideText(View view) { //shows right after you select a move
         PopUp.setVisibility(View.INVISIBLE);
-        EnemyMove(enemyPokemon.attacks.get(rn.nextInt(3)));
-        if(user.isDead()){
-            clearBottom();
-            MainText.setText("Its Over...you lose");
-            MainText.setVisibility(View.VISIBLE);
+        if(messageReceived.get()) {
+            doMove(newPokemon, newAttack, userMove);
+            messageReceived.set(false);
+        } else {
+            launchText("Waiting on Opponent...");
         }
     }
 
-    public void hideText2(View view) {
+    public void hideText2(View view) { //Shows when you faint after they attack
         PopUp2.setVisibility(View.INVISIBLE);
 
-        if(userPokemon.getHealth() <= 0){
-            MainText.setText("He dead... ");
-            switchPokemonUp();
-
+        if(user.isDead()){
+            MainText.setText("Its Over...you lose");
+            MainText.setVisibility(View.VISIBLE);
         }else{
+            switchPokemonUp();
+        }
+    }
+
+    public void hideText3(View view){ //Shows when opponent pokemon faints after you attack
+        if(messageReceived.get()) {
+            PopUp3.setVisibility(View.INVISIBLE);
+            doMoveCount = 2;
+            EnemySwitch(newPokemon);
+            readyUp(); // Always ready up because they won't move after switching and if they already moved they can't go again
+            messageReceived.set(false);
+        }
+    }
+
+    public void hideText4(View view){ // Shows at the start of the game
+        if(messageReceived.get()) {
+            enemy = new Player(enemyFirst, enemySecond, enemyThird);
+            enemyPokemon = enemy.getPokemonTeam().get(0);
+            SetEnemy();
+
+            PopUp4.setVisibility(View.INVISIBLE);
+            readyUp();
+            messageReceived.set(false);
+        }
+    }
+
+    public void hideText5(View view) { // Shows in between moves
+        PopUp5.setVisibility(View.INVISIBLE);
+        if(doMoveCount == 1 && userMove != 10) {
+            doMove2(newPokemon, newAttack, userMove);
+        } else if(userMove == 10) {
+            doMoveCount = 2;
+            switchPokemonUp();
+        } else {
             readyUp();
         }
     }
 
-    public void hideText3(View view){
-        PopUp3.setVisibility(View.INVISIBLE);
-
-        EnemyMove(enemyPokemon.attacks.get(rn.nextInt(3)));
-        if(user.isDead()){
-            clearBottom();
-            MainText.setText("Its Over...you lose");
-            MainText.setVisibility(View.VISIBLE);
-        }
-    }
-
     public void ResetIt(View view){
-        user = new Player();
+        finish();
+        /*user = new Player();
         userPokemon = user.getPokemonTeam().get(0);
         enemy = new Player();
         enemyPokemon = enemy.getPokemonTeam().get(0);
@@ -429,7 +600,7 @@ public class MainBattle extends AppCompatActivity {
 
         SetEnemy();
         SetUser();
-        readyUp();
+        readyUp();*/
     }
 
     public void RotatePic(Boolean isEnemy){
@@ -471,4 +642,28 @@ public class MainBattle extends AppCompatActivity {
         PopUp.setVisibility(View.INVISIBLE);
     }
 
+    public void parse(String data) {
+        if(data.contains(":set")) {
+            enemyFirst = (int) Integer.parseInt(data.substring(0,2));
+            enemySecond = (int) Integer.parseInt(data.substring(2,4));
+            enemyThird = (int) Integer.parseInt(data.substring(4,6));
+            theirRandom = (int) Integer.parseInt(data.substring(10, data.length()));
+            PopUp4.setText("Opponent Ready");
+            messageReceived.set(true);
+        } else if(data.contains(":action")) {
+            int action = (int) Integer.parseInt(data.substring(0,1));
+            if(action == 0) {
+                newPokemon = Integer.parseInt(data.substring(1,2));
+                newAttack = -1;
+            } else {
+                newPokemon = -1;
+                newAttack = Integer.parseInt(data.substring(1,2));
+            }
+            PopUp3.setText("Opponent Ready");
+            PopUp.setText("Opponent Ready");
+            messageReceived.set(true);
+        } else if(data.contains("received")) {
+            messageReceived.set(true);
+        }
+    }
 }

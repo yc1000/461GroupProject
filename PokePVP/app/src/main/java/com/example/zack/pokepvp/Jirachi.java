@@ -17,6 +17,8 @@ public class Jirachi extends Pokemon {
         attacks.add(new Attack("Zen Headbutt",80, 15));
         attacks.add(new Attack("Flash Cannon",80, 20));
         attacks.add(new Attack("Thunderbolt",95, 10));
+        number = 5;
+        stats.setSpeed(236);
         name = "Jirachi";
 
     }

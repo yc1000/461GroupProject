@@ -21,7 +21,7 @@ public class Statistics {
     private int maxHP;
 
     public Statistics() {
-
+        speed = 100;
     }
 
     private int spatk;
