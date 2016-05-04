@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     static BluetoothChatFragment fragment;
@@ -45,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startGame(View v) {
+        if(fragment.getBluetoothChatService().getState() != BluetoothChatService.STATE_CONNECTED) {
+            Toast.makeText(this, "Please connect a device through Bluetooth", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(this, MainBattle.class);
         intent.putExtra(GAME_START, OtherPokemon);
         startActivity(intent);

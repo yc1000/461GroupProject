@@ -70,6 +70,7 @@ public class MainBattle extends AppCompatActivity {
     int yourRandom;
     int theirRandom;
     int doMoveCount = 0;
+    int recall = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +126,7 @@ public class MainBattle extends AppCompatActivity {
         user = new Player();
         userPokemon = user.getPokemonTeam().get(0);
         yourRandom = (int)(Math.random()*50000);
-        fragment.sendMessage(user.getPokemonNums() + ":set" + yourRandom);
+        fragment.sendPokeMessage(user.getPokemonNums() + ":set" + yourRandom);
 
         //enemy = new Player();
 
@@ -144,6 +145,7 @@ public class MainBattle extends AppCompatActivity {
             enemyFirst = (int) Integer.parseInt(OtherPokemon.substring(0,2));
             enemySecond = (int) Integer.parseInt(OtherPokemon.substring(2,4));
             enemyThird = (int) Integer.parseInt(OtherPokemon.substring(4,6));
+            theirRandom = (int) Integer.parseInt(OtherPokemon.substring(10));
             enemy = new Player(enemyFirst, enemySecond, enemyThird);
             enemyPokemon = enemy.getPokemonTeam().get(0);
             EnemyHealth.setMax(enemyPokemon.getStats().getMaxHP());
@@ -262,7 +264,7 @@ public class MainBattle extends AppCompatActivity {
     }
 
     public void pokemon1(View view){
-        fragment.sendMessage("0" + "0" + ":action");
+        fragment.sendPokeMessage("0" + "0" + ":action");
         if(userPokemon.getHealth() <= 0) {//Health = zero means you came here after your opponent attacked
             userSwitch(0);
             readyUp();
@@ -272,7 +274,7 @@ public class MainBattle extends AppCompatActivity {
         }
     }
     public void pokemon2(View view){
-        fragment.sendMessage("0" + "1" + ":action");
+        fragment.sendPokeMessage("0" + "1" + ":action");
         if(userPokemon.getHealth() <= 0) { //Health = zero means you came here after your opponent attacked
             userSwitch(1);
             readyUp();
@@ -282,7 +284,7 @@ public class MainBattle extends AppCompatActivity {
         }
     }
     public void pokemon3(View view){
-        fragment.sendMessage("0" + "2" + ":action");
+        fragment.sendPokeMessage("0" + "2" + ":action");
         if(userPokemon.getHealth() <= 0) {//Health = zero means you came here after your opponent attacked
             userSwitch(2);
             readyUp();
@@ -294,17 +296,17 @@ public class MainBattle extends AppCompatActivity {
 
     public void attack1(View view) {
         userMove = 0;
-        fragment.sendMessage("1" + userMove + ":action");
+        fragment.sendPokeMessage("1" + userMove + ":action");
         launchText("Waiting on Opponent...");
     }
     public void attack2(View view) {
         userMove = 1;
-        fragment.sendMessage("1" + userMove + ":action");
+        fragment.sendPokeMessage("1" + userMove + ":action");
         launchText("Waiting on Opponent...");
     }
     public void attack3(View view) {
         userMove = 2;
-        fragment.sendMessage("1" + userMove + ":action");
+        fragment.sendPokeMessage("1" + userMove + ":action");
         launchText("Waiting on Opponent...");
     }
 
@@ -350,12 +352,13 @@ public class MainBattle extends AppCompatActivity {
             PopUp3.setVisibility(View.INVISIBLE);
             PopUp2.setVisibility(View.INVISIBLE);
             PopUp.setVisibility(View.INVISIBLE);
+            recall = 1;
         } else if(userPokemon.getHealth() <= 0){
-            messageReceived.set(false);
             if(doMoveCount == 1) {
-                userMove = 10;
+                doMoveCount = 2;
             }
             launchText2("You fainted!");
+            recall = 1;
         }
 
     }
@@ -386,9 +389,10 @@ public class MainBattle extends AppCompatActivity {
             PopUp3.setVisibility(View.INVISIBLE);
             PopUp2.setVisibility(View.INVISIBLE);
             PopUp.setVisibility(View.INVISIBLE);
+            recall = 1;
         } else if(enemyPokemon.getHealth() <= 0){
-            messageReceived.set(false);
             launchText3("");
+            recall = 1;
         }
     }
 
@@ -481,7 +485,7 @@ public class MainBattle extends AppCompatActivity {
     }
     public void launchText2(String text) {
         clearBottom();
-        PopUp2.setText(text);
+        PopUp2.setText("You Fainted!");
         PopUp2.setVisibility(View.VISIBLE);
 
     }
@@ -517,6 +521,10 @@ public class MainBattle extends AppCompatActivity {
 
     }
     public void launchText5(String text){
+        if(recall == 1) {
+            recall = 0;
+            return;
+        }
         clearBottom();
         PopUp5.setText(text);
         PopUp5.setVisibility(View.VISIBLE);

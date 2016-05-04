@@ -35,7 +35,7 @@ public class Player {
         for(int i = 0; i < pokemonTeam.size(); i++) {
             result += pokemonTeam.get(i).getNumberString();
         }
-        return "030102";
+        return result;
     }
 
     public Pokemon getPokemon(int index) {

@@ -41,6 +41,8 @@ import android.widget.Toast;
  * This fragment controls Bluetooth to communicate with other devices.
  */
 public class BluetoothChatFragment extends Fragment {
+    int MessageCounter;
+    int theirMessageCounter;
     private String savedString = "";
     private static final String TAG = "BluetoothChatFragment";
 
@@ -157,6 +159,23 @@ public class BluetoothChatFragment extends Fragment {
         //mSendButton = (Button) view.findViewById(R.id.button_send);
     }
 
+    public String receiveMessage(int code) {
+        Message msg = mChatService.receiveMessage(code);
+        String result;
+        while (true) {
+            try{
+                result = msg.getData().getString("Pokemon Message");
+                if(result == null) {
+                    continue;
+                }
+            } catch (Exception e) {
+                continue;
+            }
+            break;
+        }
+        return result;
+    }
+
     public void changeActivity(int newCode) {
         activityNum = newCode;
     }
@@ -215,6 +234,26 @@ public class BluetoothChatFragment extends Fragment {
      * @param message A string of text to send.
      */
     public void sendMessage(String message) {
+        savedString = message;
+        // Check that we're actually connected before trying anything
+        if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
+            Toast.makeText(getMainActivity(), R.string.not_connected, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Check that there's actually something to send
+        if (message.length() > 0) {
+            // Get the message bytes and tell the BluetoothChatService to write
+            byte[] send = message.getBytes();
+            mChatService.write(send);
+
+            // Reset out string buffer to zero and clear the edit text field
+            //mOutStringBuffer.setLength(0);
+            //mOutEditText.setText(mOutStringBuffer);
+        }
+    }
+
+    public void sendPokeMessage(String message) {
         savedString = message;
         // Check that we're actually connected before trying anything
         if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {

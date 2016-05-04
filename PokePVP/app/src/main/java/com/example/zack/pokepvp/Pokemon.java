@@ -30,10 +30,9 @@ public class Pokemon {
     public String getNumberString() {
         String result = "";
         int p = getNumber();
-        if(p == 0) {
-            return "00";
+        if(p < 10) {
+            result += "0";
         }
-        result += "0";
         result += (new Integer(p)).toString();
         return result;
     }

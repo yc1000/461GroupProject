@@ -77,6 +77,10 @@ public class BluetoothChatService {
         mHandler = handler;
     }
 
+    public Message receiveMessage(int code) {
+        return mHandler.obtainMessage(code);
+    }
+
     public void changeHandler(Handler handler) {
         mHandler = handler;
     }

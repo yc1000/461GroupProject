@@ -17,7 +17,7 @@ public class Charizard extends Pokemon {
         attacks.add(new Attack());
         attacks.add(new Attack("Fly",90, 15));
         attacks.add(new Attack("Flamethrower",90, 15));
-        number = 2;
+        number = 1;
         stats.setSpeed(235);
         name = "Charizard";
 
