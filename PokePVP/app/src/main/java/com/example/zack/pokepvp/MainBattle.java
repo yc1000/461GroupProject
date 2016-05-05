@@ -93,6 +93,7 @@ public class MainBattle extends AppCompatActivity {
         firstTime = true;
         Intent intent = getIntent();
         String OtherPokemon = intent.getStringExtra(MainActivity.GAME_START);
+        String gameType = intent.getStringExtra(MainActivity.GAME_TYPE);
 
         //Initialize Globals
         currentAttack = -1;
@@ -123,10 +124,16 @@ public class MainBattle extends AppCompatActivity {
         CloseWindow = true;
         EnemyName.setText("Waiting");
 
+        int pokemonPassedByMain[] = intent.getIntArrayExtra(MainActivity.GAME_POKEMON);
+
         user = new Player();
-        userPokemon = user.getPokemonTeam().get(0);
+        for(int i : pokemonPassedByMain) {
+            user.addPokemon(i);
+        }
+
         yourRandom = (int)(Math.random()*50000);
-        fragment.sendPokeMessage(user.getPokemonNums() + ":set" + yourRandom);
+        userPokemon = user.getPokemonTeam().get(0);
+        fragment.sendPokeMessage(user.getPokemonNums() + ":set" +  gameType.substring(0, 6) + yourRandom);
 
         //enemy = new Player();
 
@@ -142,10 +149,11 @@ public class MainBattle extends AppCompatActivity {
 
         if(OtherPokemon.contains(":set")) {
             firstTime = false;
+            //TODO:: Edit this code to be expandable (to be able to change the number of pokemon more easily)
             enemyFirst = (int) Integer.parseInt(OtherPokemon.substring(0,2));
             enemySecond = (int) Integer.parseInt(OtherPokemon.substring(2,4));
             enemyThird = (int) Integer.parseInt(OtherPokemon.substring(4,6));
-            theirRandom = (int) Integer.parseInt(OtherPokemon.substring(10));
+            theirRandom = (int) Integer.parseInt(OtherPokemon.substring(16));
             enemy = new Player(enemyFirst, enemySecond, enemyThird);
             enemyPokemon = enemy.getPokemonTeam().get(0);
             EnemyHealth.setMax(enemyPokemon.getStats().getMaxHP());
@@ -475,31 +483,30 @@ public class MainBattle extends AppCompatActivity {
     public void launchText(String text) {
         clearBottom();
         if(messageReceived.get()) {
-            doMove(newPokemon, newAttack, userMove);
             messageReceived.set(false);
+            doMove(newPokemon, newAttack, userMove);
         } else {
-            PopUp.setText(text);
+            PopUp.setText(text);// + " dbg1");
             PopUp.setVisibility(View.VISIBLE);
         }
 
     }
     public void launchText2(String text) {
         clearBottom();
-        PopUp2.setText("You Fainted!");
+        PopUp2.setText("You Fainted!");// + " dbg2");
         PopUp2.setVisibility(View.VISIBLE);
 
     }
     public void launchText3(String text){
         clearBottom();
-        if(false && messageReceived.get() && enemyPokemon != enemy.getPokemonTeam().get(newPokemon)) { //TODO:: FIGURE THIS SHIT OUT
+        if(messageReceived.get() && enemyPokemon.getHealth() <= 0) {
+            messageReceived.set(false);
             PopUp3.setVisibility(View.INVISIBLE);
             doMoveCount = 2;
             EnemySwitch(newPokemon);
             readyUp(); // Always ready up because they won't move after switching and if they already moved they can't go again
-            messageReceived.set(false);
         } else {
-            messageReceived.set(false);
-            PopUp3.setText("Waiting on Opponent...");
+            PopUp3.setText(text + "Your Opponent Fainted! Waiting on Opponent to switch pokemon...");// + " dbg3");
             PopUp3.setVisibility(View.VISIBLE);
         }
 
@@ -507,15 +514,15 @@ public class MainBattle extends AppCompatActivity {
     public void launchText4(String text){
         clearBottom();
         if(messageReceived.get()) {
+            messageReceived.set(false);
             enemy = new Player(enemyFirst, enemySecond, enemyThird);
             enemyPokemon = enemy.getPokemonTeam().get(0);
             SetEnemy();
 
             PopUp4.setVisibility(View.INVISIBLE);
             readyUp();
-            messageReceived.set(false);
         } else {
-            PopUp4.setText("Waiting on Opponent...");
+            PopUp4.setText("Waiting on Opponent to start...");// + " dbg4");
             PopUp4.setVisibility(View.VISIBLE);
         }
 
@@ -526,15 +533,15 @@ public class MainBattle extends AppCompatActivity {
             return;
         }
         clearBottom();
-        PopUp5.setText(text);
+        PopUp5.setText(text);// + " dbg5");
         PopUp5.setVisibility(View.VISIBLE);
     }
 
     public void hideText(View view) { //shows right after you select a move
         PopUp.setVisibility(View.INVISIBLE);
         if(messageReceived.get()) {
-            doMove(newPokemon, newAttack, userMove);
             messageReceived.set(false);
+            doMove(newPokemon, newAttack, userMove);
         } else {
             launchText("Waiting on Opponent...");
         }
@@ -552,24 +559,25 @@ public class MainBattle extends AppCompatActivity {
     }
 
     public void hideText3(View view){ //Shows when opponent pokemon faints after you attack
+        PopUp3.setText("Waiting on Opponent...");
         if(messageReceived.get()) {
+            messageReceived.set(false);
             PopUp3.setVisibility(View.INVISIBLE);
             doMoveCount = 2;
             EnemySwitch(newPokemon);
             readyUp(); // Always ready up because they won't move after switching and if they already moved they can't go again
-            messageReceived.set(false);
         }
     }
 
     public void hideText4(View view){ // Shows at the start of the game
         if(messageReceived.get()) {
+            messageReceived.set(false);
             enemy = new Player(enemyFirst, enemySecond, enemyThird);
             enemyPokemon = enemy.getPokemonTeam().get(0);
             SetEnemy();
 
             PopUp4.setVisibility(View.INVISIBLE);
             readyUp();
-            messageReceived.set(false);
         }
     }
 
@@ -655,7 +663,7 @@ public class MainBattle extends AppCompatActivity {
             enemyFirst = (int) Integer.parseInt(data.substring(0,2));
             enemySecond = (int) Integer.parseInt(data.substring(2,4));
             enemyThird = (int) Integer.parseInt(data.substring(4,6));
-            theirRandom = (int) Integer.parseInt(data.substring(10, data.length()));
+            theirRandom = (int) Integer.parseInt(data.substring(16));
             PopUp4.setText("Opponent Ready");
             messageReceived.set(true);
         } else if(data.contains(":action")) {

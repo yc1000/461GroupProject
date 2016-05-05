@@ -19,9 +19,9 @@ public class Player {
     Player(){
         pokemonTeam = new ArrayList<Pokemon>();
         //pokemonTeam.add(new Blastoise());
-        pokemonTeam.add(new Hitmonchan());
-        pokemonTeam.add(new Charizard());
-        pokemonTeam.add(new Venusaur());
+        //pokemonTeam.add(new Hitmonchan());
+        //pokemonTeam.add(new Charizard());
+        //pokemonTeam.add(new Venusaur());
     }
     Player(int first, int second, int third) {
         pokemonTeam = new ArrayList<Pokemon>();
@@ -38,27 +38,12 @@ public class Player {
         return result;
     }
 
+    public void addPokemon(int pkm) {
+        pokemonTeam.add(getPokemon(pkm));
+    }
+
     public Pokemon getPokemon(int index) {
-        switch (index) {
-            case 0:
-                return new Blastoise();
-            case 1:
-                return new Charizard();
-            case 2:
-                return new Venusaur();
-            case 3:
-                return new Hitmonchan();
-            case 4:
-                return new Absol();
-            case 5:
-                return new Jirachi();
-            case 6:
-                return new Mewtwo();
-            case 7:
-                return new Ninetales();
-            default:
-                return new Sceptile();
-        }
+        return Pokemon.getPokemonFromNum(index);
     }
 
     boolean isDead(){

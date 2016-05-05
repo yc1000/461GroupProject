@@ -25,5 +25,6 @@
     <string name="testConnection">Test the Connection</string>
     <string name="EnableConnection">Enable Connection</string>
     <string name="connect">Connect</string>
-    <string name="Start">Start</string>
+    <string name="Start">Start w/ Chosen</string>
+    <string name="StartWRandom">Start w/ Random</string>
 </resources>

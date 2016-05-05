@@ -3,6 +3,7 @@ package com.example.zack.pokepvp;
 import java.util.ArrayList;
 
 public class Pokemon {
+    public static final int numDiffPokemon = 9;
     private final int max_places = 10;
     protected String name;
 
@@ -25,6 +26,29 @@ public class Pokemon {
 
     public int getSpeed() {
         return stats.getSpeed();
+    }
+
+    public static Pokemon getPokemonFromNum(int index) {
+        switch (index) {
+            case 0:
+                return new Blastoise();
+            case 1:
+                return new Charizard();
+            case 2:
+                return new Venusaur();
+            case 3:
+                return new Hitmonchan();
+            case 4:
+                return new Absol();
+            case 5:
+                return new Jirachi();
+            case 6:
+                return new Mewtwo();
+            case 7:
+                return new Ninetales();
+            default:
+                return new Sceptile();
+        }
     }
 
     public String getNumberString() {
