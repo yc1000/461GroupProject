@@ -678,7 +678,7 @@ public class MainBattle extends AppCompatActivity {
             PopUp3.setText("Opponent Ready");
             PopUp.setText("Opponent Ready");
             messageReceived.set(true);
-        } else if(data.contains("received")) {
+        } else if(data.contains("SURR3ND3R")) {
             messageReceived.set(true);
         }
     }

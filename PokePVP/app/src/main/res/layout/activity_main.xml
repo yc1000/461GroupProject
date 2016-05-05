@@ -210,6 +210,74 @@
                         android:onClick="clickPokemon"/>
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/infernape"
+                        android:id="@+id/checkBox9"
+                        android:text="9"
+                        android:textSize="0px"
+                        android:onClick="clickPokemon"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/suicune"
+                        android:id="@+id/checkBox10"
+                        android:text="10"
+                        android:textSize="0px"
+                        android:onClick="clickPokemon"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/pikachu"
+                        android:text="11"
+                        android:textSize="0px"
+                        android:id="@+id/checkBox11"
+                        android:onClick="clickPokemon"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/leafeon"
+                        android:id="@+id/checkBox12"
+                        android:text="12"
+                        android:textSize="0px"
+                        android:onClick="clickPokemon"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/lucario"
+                        android:id="@+id/checkBox13"
+                        android:text="13"
+                        android:textSize="0px"
+                        android:onClick="clickPokemon"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/rayquaza"
+                        android:id="@+id/checkBox14"
+                        android:text="14"
+                        android:textSize="0px"
+                        android:onClick="clickPokemon"/>
+
+                </LinearLayout>
             </LinearLayout>
 
         </ScrollView>
